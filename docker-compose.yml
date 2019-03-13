@@ -1,0 +1,93 @@
+version: "3.3"
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: databse_wp
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}	#Check .env file
+      MYSQL_DATABASE: wordpress				#Your database
+      MYSQL_USER: wordpress				#Your username
+      MYSQL_PASSWORD: PasswordMysql			#Your Password
+    networks:
+      - wp
+      - proxy
+    labels:
+      - "traefik.enable=false"
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    restart: always
+    volumes:
+      - ./wordpress/:/var/www/html
+      - ./php.ini:/usr/local/etc/php/php-production.ini
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress		#YOUR username define higher    
+      WORDPRESS_DB_PASSWORD: PasswordMysql	#YOUR password define higher
+    networks:
+      - proxy
+      - wp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:mywebsite.com"			# Your url site : ex : mywebsite.com  <-- Change it !
+      - "traefik.frontrend.entryPoints=http,https"			# EntryPoints http,https
+      - "traefik.docker.networks=proxy"					# Network traefik 
+      - "traefik.frontend.headers.forceSTSHeader=true"			#########################################
+      - "traefik.frontend.headers.STSSeconds=315360000"			#					#
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"		#					#
+      - "traefik.frontend.headers.STSPreload=true"			#	Security of traefik 		#
+      - "traefik.frontend.headers.browserXSSFilter=true"		#					#
+      - "traefik.frontend.headers.contentTypeNosniff=true"		#					#
+      - "traefik.frontend.headers.customFrameOptionsValue=SAMEORIGIN"	#########################################
+
+#################################################################################################################
+#	TRAEFIK CONFIGURATION											#
+#	https://nofreedisk.space/2018/09/15/how-to-make-a-dns-record-with-ovh-and-traefik/			#
+#################################################################################################################
+
+  traefik:
+    image: traefik:1.7
+    container_name: traefik
+    restart: always
+
+    volumes:
+      - ./trafik/toml/traefik.toml:/etc/traefik/traefik.toml:ro
+      - ./traefik/acme/:/etc/traefik/acme/
+      - ./traefik/log/traefik.log:/etc/traefik/traefik.log
+      - ./traefik/log/access.log:/etc/traefik/access.log
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    labels:
+       - traefik.frontend.entryPoints=http,https
+       - traefik.frontend.passHostHeader=true
+
+    environment:
+      - OVH_ENDPOINT=ovh-eu
+      - OVH_APPLICATION_KEY=						# Your application key received by ovh api
+      - OVH_APPLICATION_SECRET=						# Your application secret received by ovh api
+      - OVH_CONSUMER_KEY=						# Your consumer key received by ovh api
+    networks:
+      - proxy
+      - wp
+
+    
+volumes:
+    db_data:
+
+networks:
+  proxy:
+    external: true
+  wp:
+

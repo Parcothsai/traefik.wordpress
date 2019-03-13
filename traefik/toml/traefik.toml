@@ -1,0 +1,47 @@
+defaultEntryPoints = ["http", "https"]
+logLevel = "DEBUG"
+
+[traefikLog]
+  filePath = "/etc/traefik/traefik.log"
+
+[accessLog]
+  filePath = "/etc/traefik/access.log"
+
+[web]
+address = ":8080"
+[web.auth.basic]
+# User: user | Password: password
+#Command : htpasswd -n user
+users = ["user:$apr1$PaeIF7hh$uMMojpelPpal5LXamlE/2."]
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+  [entryPoints.http.redirect]
+    entrypoint = "https"
+  [entryPoints.https]
+  address = ":443"
+      [entryPoints.https.tls]
+
+[acme]
+  email = "youremail@mail.com"
+  storage = "/etc/traefik/acme/acme.json"
+  entryPoint = "https"
+  OnHostRule = true
+  acmeLogging = true
+
+  [[acme.domains]]
+    main = "mywebsite.com"				# <-- change it by YOUR url
+    sans = ["mywebsite.com","stats.mywebsite.com"]	# <-- stats.mywebsite.com is dashboard traefik
+
+[acme.dnsChallenge]
+  # https://docs.traefik.io/configuration/acme/#provider
+  provider = "ovh"
+  delayBeforeCheck = 0
+
+[docker]
+domain = "mywebsite.com"
+swarmmode = false
+watch = true
+exposedbydefault = false
+
