@@ -7,7 +7,7 @@ This directory contains everything you need to easily set up a wordpress site wi
 
 Link : https://nofreedisk.space/2018/09/15/how-to-make-a-dns-record-with-ovh-and-traefik/
 
-## Necessary to run with this repo
+## Do what is necessary to run with this repo
 
 First:
 
