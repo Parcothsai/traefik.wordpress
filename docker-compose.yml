@@ -24,8 +24,8 @@ services:
     restart: always
     volumes:
       - ./wordpress/:/var/www/html
-      - ./php.ini:/usr/local/etc/php/php-production.ini
-      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+#      - ./php.ini:/usr/local/etc/php/php-production.ini
+#      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
     restart: always
     environment:
