@@ -8,10 +8,10 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}	#Check .env file
-      MYSQL_DATABASE: wordpress				#Your database
-      MYSQL_USER: wordpress				#Your username
-      MYSQL_PASSWORD: PasswordMysql			#Your Password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}	#Check .env file	#  |
+      MYSQL_DATABASE: wordpress				#Your database		#  |
+      MYSQL_USER: wordpress				#Your username		#  |  <-- You can change it but, replicate data below 
+      MYSQL_PASSWORD: PasswordMysql			#Your Password		#  |
     networks:
       - wp
       - proxy
