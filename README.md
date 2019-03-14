@@ -2,6 +2,11 @@
 
 This directory contains everything you need to easily set up a wordpress site with Traefik. Of course, everything is from Docker.
 
+This directory explains how to set up Traefik, with OVH DNS. It's very easy.
+
+##	DO NOT FORGET TO CONFIGURE YOUR OVH DNS BEFORE STARTING INSTALLION
+
+
 
 # TRAEFIK WITH OVH
 
@@ -22,3 +27,8 @@ First:
 
 	And, finally, exec docker-compose command
 	--> docker-compose up -d
+
+Second:
+
+	Acces to your site with "https://stats.mywebsite.com" and "https://mywebsite.com"
+	
