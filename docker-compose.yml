@@ -3,7 +3,7 @@ version: "3.3"
 services:
   db:
     image: mysql:5.7
-    container_name: databse_wp
+    container_name: database_wp
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -20,7 +20,7 @@ services:
 
   wordpress:
     image: wordpress:latest
-    container_name: wordpress
+    container_name: wordpress_site
     restart: always
     volumes:
       - ./wordpress/:/var/www/html
