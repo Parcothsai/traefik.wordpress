@@ -12,6 +12,50 @@ This directory explains how to set up Traefik, with OVH DNS. It's very easy.
 
 Link : https://nofreedisk.space/2018/09/15/how-to-make-a-dns-record-with-ovh-and-traefik/
 
+First step:
+
+	Log in to https://eu.api.ovh.com/createApp/ with ovh credentials and create an app. Name it Traefik ( the name of   	application does not matter)
+	
+	Then, create keys. You will have two keys, one for the application, the other for the secret. DON'T LOSE THESE KEYS !!
+	
+	After that, you have to execute a curl command ( change https://mysite.com with YOUR url site ):
+	
+	curl \
+	-XPOST \
+	-H"X-Ovh-Application: REPLACE BY YOUR OVH APPLICATION KEY " \
+	-H "Content-type: application/json" \
+	https://eu.api.ovh.com/1.0/auth/credential -d '{
+	"accessRules": [
+	{
+	"method": "GET",
+	"path": "/*"
+	},
+	{
+	"method": "POST",
+	"path": "/*"
+	},
+	{
+	"method": "PUT",
+	"path": "/*"
+	},
+	{
+	"method": "DELETE",
+	"path": "/*"
+	}
+	],
+	"redirection": "https://mysite.com/"
+	}'
+	
+	Once it's done, you will have an url in the response. IT'S your consumer key. Go to the url, and connect with your ovh
+	
+	
+	id and set UNLIMITED validity. 
+	
+	
+	
+# DO NOT LOSE YOUR KEYS AND DON'T PUBLISH THEM
+	
+	
 ## Do what is necessary to run with this repo
 
 First:
