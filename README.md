@@ -47,9 +47,7 @@ First step:
 	}'
 	
 	Once it's done, you will have an url in the response. IT'S your consumer key. Go to the url, and connect with your ovh
-	
-	
-	id and set UNLIMITED validity. 
+        id and set UNLIMITED validity. 
 	
 	
 	
