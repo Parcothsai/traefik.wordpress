@@ -70,8 +70,13 @@ services:
       - "443:443"
       - "8080:8080"
     labels:
+       - traefik.enable=true
        - traefik.frontend.entryPoints=http,https
        - traefik.frontend.passHostHeader=true
+       - traefik.frontend.rule=stats.mywebsite.com                #It's traefik dashboard access on https. Change it with what you want !
+       - traefik.port=8080
+       - traefik.docker.network=proxy
+
 
     environment:
       - OVH_ENDPOINT=ovh-eu
